@@ -1,0 +1,628 @@
+
+
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#030914">
+<title>J.A.R.V.I.S. 2.0</title>
+
+<style>
+:root {
+  --blue: #42d9ff;
+  --cyan: #00aaff;
+  --light: #a8f3ff;
+  --dark: #030914;
+  --panel: rgba(5, 28, 49, .72);
+  --line: rgba(66, 217, 255, .32);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: #d8f7ff;
+  background:
+    radial-gradient(ellipse at 50% 36%, #10385a 0%, #07182b 35%, #020711 78%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(45,180,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(45,180,255,.035) 1px, transparent 1px);
+  background-size: 38px 38px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    transparent 0px,
+    transparent 3px,
+    rgba(70,200,255,.018) 4px
+  );
+}
+
+.app {
+  width: min(1200px, 100%);
+  margin: auto;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 4px 18px;
+  gap: 12px;
+}
+
+.brand {
+  color: var(--blue);
+  font-size: 22px;
+  letter-spacing: 7px;
+  font-weight: 300;
+  text-shadow: 0 0 18px var(--cyan);
+}
+
+.brand small {
+  display: block;
+  color: #6aabc8;
+  font-size: 9px;
+  letter-spacing: 4px;
+  margin-top: 7px;
+}
+
+.top-status {
+  color: #62f5c4;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-align: right;
+}
+
+.indicator {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4fffc0;
+  box-shadow: 0 0 12px #4fffc0;
+  margin-right: 7px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  gap: 15px;
+  align-items: center;
+  padding: 35px 0 25px;
+}
+
+.side-panel {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 17px;
+  min-height: 170px;
+  box-shadow: 0 0 22px rgba(0,170,255,.07);
+  clip-path: polygon(
+    0 0, 92% 0, 100% 12%, 100% 100%, 8% 100%, 0 88%
+  );
+}
+
+.panel-title {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--blue);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  color: #7fa9c0;
+  font-size: 10px;
+  margin: 13px 0;
+}
+
+.metric strong {
+  color: #b8f4ff;
+  font-weight: 400;
+}
+
+.core-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 290px;
+}
+
+.reactor {
+  width: 245px;
+  height: 245px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 20px rgba(0,180,255,.4));
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(66,217,255,.65);
+}
+
+.ring.one {
+  width: 100%;
+  height: 100%;
+  border-width: 2px;
+  border-top-color: transparent;
+  animation: rotate 12s linear infinite;
+}
+
+.ring.two {
+  width: 86%;
+  height: 86%;
+  border-style: dashed;
+  animation: rotateReverse 20s linear infinite;
+}
+
+.ring.three {
+  width: 69%;
+  height: 69%;
+  border-width: 3px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  animation: rotate 8s linear infinite;
+}
+
+.ring.four {
+  width: 53%;
+  height: 53%;
+  border-color: rgba(112,230,255,.9);
+  box-shadow: inset 0 0 20px #009bdc, 0 0 20px #009bdc;
+}
+
+.reactor-core {
+  width: 36%;
+  height: 36%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    #ffffff 0%,
+    #9df7ff 13%,
+    #19cfff 37%,
+    #075c91 70%,
+    #031b35 100%
+  );
+  box-shadow:
+    0 0 20px #00cfff,
+    0 0 55px #008dff,
+    inset 0 0 15px white;
+  animation: breathe 3s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotateReverse {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes breathe {
+  50% {
+    transform: scale(1.12);
+    box-shadow: 0 0 35px #00eaff, 0 0 75px #008dff;
+  }
+}
+
+.core-caption {
+  position: absolute;
+  bottom: -26px;
+  color: var(--blue);
+  font-size: 9px;
+  letter-spacing: 4px;
+}
+
+.section-heading {
+  color: var(--blue);
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 5px;
+  margin: 22px 0 16px;
+}
+
+.chat-panel {
+  border: 1px solid var(--line);
+  background: rgba(2, 13, 26, .88);
+  box-shadow: 0 0 35px rgba(0,150,255,.1);
+  padding: 17px;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 12px;
+  color: #72dfff;
+  font-size: 10px;
+  letter-spacing: 3px;
+}
+
+#chat {
+  height: 235px;
+  overflow-y: auto;
+  padding: 12px 4px;
+}
+
+.message {
+  padding: 12px 15px;
+  margin: 10px 0;
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.jarvis {
+  background: linear-gradient(90deg, rgba(0,115,170,.2), transparent);
+  border-left: 2px solid var(--blue);
+}
+
+.user {
+  background: linear-gradient(270deg, rgba(0,170,210,.16), transparent);
+  border-right: 2px solid #5de8ff;
+  text-align: right;
+}
+
+.input-row {
+  display: flex;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+input {
+  min-width: 0;
+  flex: 1;
+  padding: 15px;
+  background: #06182a;
+  border: 1px solid #24658b;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 12px rgba(0,170,255,.3);
+}
+
+button {
+  background: rgba(0,110,165,.35);
+  color: var(--light);
+  border: 1px solid #258db8;
+  padding: 12px 16px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
+
+button:active {
+  background: #0876a9;
+}
+
+button:disabled {
+  opacity: .45;
+}
+
+.voice-controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.bottom-info {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+  padding: 15px 4px;
+  border-top: 1px solid var(--line);
+  color: #6090aa;
+  font-size: 9px;
+  letter-spacing: 2px;
+}
+
+@media(max-width: 700px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .core-area {
+    grid-row: 1;
+  }
+
+  .side-panel {
+    min-height: auto;
+  }
+
+  .metric {
+    margin: 9px 0;
+  }
+
+  .reactor {
+    width: 225px;
+    height: 225px;
+  }
+
+  .brand {
+    font-size: 17px;
+    letter-spacing: 5px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header class="topbar">
+  <div class="brand">
+    J.A.R.V.I.S.
+    <small>PERSONAL INTELLIGENCE SYSTEM</small>
+  </div>
+
+  <div class="top-status">
+    <span class="indicator"></span>
+    <span id="status">SYSTEM ONLINE</span>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+
+  <div class="side-panel">
+    <div class="panel-title">SYSTEM DIAGNOSTICS</div>
+    <div class="metric"><span>CORE</span><strong>ACTIVE</strong></div>
+    <div class="metric"><span>NETWORK</span><strong>CONNECTED</strong></div>
+    <div class="metric"><span>AI ENGINE</span><strong>GEMINI</strong></div>
+    <div class="metric"><span>SECURITY</span><strong>ENABLED</strong></div>
+  </div>
+
+  <div class="core-area">
+    <div class="reactor">
+      <div class="ring one"></div>
+      <div class="ring two"></div>
+      <div class="ring three"></div>
+      <div class="ring four"></div>
+      <div class="reactor-core"></div>
+      <div class="core-caption">JARVIS CORE</div>
+    </div>
+  </div>
+
+  <div class="side-panel">
+    <div class="panel-title">INTELLIGENCE</div>
+    <div class="metric"><span>LANGUAGE</span><strong>GERMAN</strong></div>
+    <div class="metric"><span>VOICE</span><strong id="voiceState">READY</strong></div>
+    <div class="metric"><span>ASSISTANT</span><strong>ACTIVE</strong></div>
+    <div class="metric"><span>VERSION</span><strong>2.0</strong></div>
+  </div>
+
+</section>
+
+<div class="section-heading">PERSONAL AI INTERFACE</div>
+
+<section class="chat-panel">
+  <div class="chat-header">
+    <span>J.A.R.V.I.S. COMMUNICATION</span>
+    <span>ENCRYPTED CHANNEL</span>
+  </div>
+
+  <div id="chat">
+    <div class="message jarvis">
+      Guten Tag. JARVIS ist online.
+      Alle Kernsysteme sind bereit.
+      Wie kann ich Ihnen behilflich sein?
+    </div>
+  </div>
+
+  <div class="input-row">
+    <input id="message" placeholder="Befehl an JARVIS..." autocomplete="off">
+    <button id="send">SENDEN</button>
+  </div>
+
+  <div class="voice-controls">
+    <button id="mic">🎙 SPRACHE</button>
+    <button id="sound">🔊 STIMME AN</button>
+    <button id="clear">NEUER CHAT</button>
+  </div>
+</section>
+</main>
+
+<footer class="bottom-info">
+  <span>STARK-STYLE AI INTERFACE</span>
+  <span>J.A.R.V.I.S. 2.0</span>
+  <span>ALL SYSTEMS NOMINAL</span>
+</footer>
+
+</div>
+
+<script>
+const API_URL =
+  "https://jarvis-core.pjgnikolaus8.workers.dev/chat";
+
+const chat = document.getElementById("chat");
+const input = document.getElementById("message");
+const statusText = document.getElementById("status");
+const sendButton = document.getElementById("send");
+
+let history = [];
+let soundEnabled = true;
+let busy = false;
+
+function addMessage(text, type) {
+  const element = document.createElement("div");
+  element.className = "message " + type;
+  element.textContent = text;
+  chat.appendChild(element);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function speak(text) {
+  if (!soundEnabled || !("speechSynthesis" in window)) {
+    return;
+  }
+
+  speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "de-DE";
+  utterance.rate = 0.9;
+  utterance.pitch = 0.9;
+
+  speechSynthesis.speak(utterance);
+}
+
+async function sendMessage() {
+  const text = input.value.trim();
+
+  if (!text || busy) return;
+
+  busy = true;
+  sendButton.disabled = true;
+
+  addMessage(text, "user");
+  input.value = "";
+  statusText.textContent = "PROCESSING REQUEST...";
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text,
+        history: history
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.reply) {
+      throw new Error(
+        data.details || data.error || "Keine Antwort erhalten."
+      );
+    }
+
+    addMessage(data.reply, "jarvis");
+
+    history.push(
+      { role: "user", text: text },
+      { role: "model", text: data.reply }
+    );
+
+    history = history.slice(-12);
+
+    speak(data.reply);
+    statusText.textContent = "SYSTEM ONLINE";
+
+  } catch (error) {
+    addMessage(
+      "Verbindung fehlgeschlagen: " + error.message,
+      "jarvis"
+    );
+
+    statusText.textContent = "CONNECTION ERROR";
+
+  } finally {
+    busy = false;
+    sendButton.disabled = false;
+  }
+}
+
+sendButton.addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", event => {
+  if (event.key === "Enter") sendMessage();
+});
+
+document.getElementById("sound").addEventListener("click", () => {
+  soundEnabled = !soundEnabled;
+
+  document.getElementById("sound").textContent =
+    soundEnabled ? "🔊 STIMME AN" : "🔇 STIMME AUS";
+
+  if (!soundEnabled && "speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+});
+
+document.getElementById("clear").addEventListener("click", () => {
+  history = [];
+  chat.innerHTML = "";
+  addMessage("Neuer Kommunikationskanal geöffnet. Wie kann ich helfen?", "jarvis");
+});
+
+document.getElementById("mic").addEventListener("click", () => {
+  const Recognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!Recognition) {
+    addMessage(
+      "Die Spracherkennung wird von diesem Browser nicht unterstützt.",
+      "jarvis"
+    );
+    return;
+  }
+
+  const recognition = new Recognition();
+  recognition.lang = "de-DE";
+  recognition.interimResults = false;
+
+  statusText.textContent = "LISTENING...";
+
+  recognition.onresult = event => {
+    input.value = event.results[0][0].transcript;
+    sendMessage();
+  };
+
+  recognition.onerror = () => {
+    statusText.textContent = "VOICE INPUT ERROR";
+  };
+
+  recognition.onend = () => {
+    if (statusText.textContent === "LISTENING...") {
+      statusText.textContent = "SYSTEM ONLINE";
+    }
+  };
+
+  recognition.start();
+});
+</script>
+</body>
+</html>
