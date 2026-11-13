@@ -33,7 +33,7 @@ body.listening .core-wrap,body.speaking .core-wrap,body.thinking .core-wrap{filt
 <div class="overlay" id="archiveOverlay"><section class="sheet"><div class="sheethead"><h2>Lokales Gesprächsarchiv</h2><button class="close" data-close="archiveOverlay">×</button></div><div class="notice">Das Archiv liegt nur in diesem Browser auf diesem Gerät. Keine Cloud-Synchronisierung.</div><div id="archiveList"></div><button class="chip" id="clearArchive">Archiv löschen</button></section></div>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.module.js';
-const API_URL='https://jarvis-core.pietrzyknico08.workers.dev/chat',
+const API_URL='https://jarvis-core.pietrzyknico08.workers.dev/chat';
 let history=[],busy=false,soundOn=true,recognition=null,listening=false,settings=JSON.parse(localStorage.getItem('jarvis-settings')||'{}');
 const palettes={amber:['#f0a64b','#ffe0a1','rgba(240,166,75,.25)'],cyan:['#5bd8f2','#b8f5ff','rgba(91,216,242,.25)'],violet:['#b69cff','#e0d3ff','rgba(182,156,255,.25)'],emerald:['#79d6b0','#c6ffe8','rgba(121,214,176,.25)']};
 function applySettings(){let p=palettes[settings.theme||'amber'];document.documentElement.style.setProperty('--accent',p[0]);document.documentElement.style.setProperty('--accent2',p[1]);document.documentElement.style.setProperty('--glow',p[2]);for(let k of ['humor','direct','initiative','length'])if(settings[k]!==undefined){$(k).value=settings[k];$(k+'Val').textContent=settings[k]}$('theme').value=settings.theme||'amber';$('motion').value=settings.motion||'full'}applySettings();
